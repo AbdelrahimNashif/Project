@@ -29,7 +29,7 @@
         android:fontFamily="@string/font_family"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
-        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:drawableStart="@drawable/email_icon_custom"
         android:drawablePadding="10dp"
         android:backgroundTint="@android:color/white"
         android:inputType="textEmailAddress"
@@ -40,7 +40,7 @@
 
     <EditText
         android:id="@+id/etpassword"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawableStart="@drawable/lock_icon_custom"
         android:drawablePadding="10dp"
         android:backgroundTint="@android:color/white"
         android:layout_width="match_parent"

@@ -51,6 +51,10 @@ public class login extends AppCompatActivity implements View.OnClickListener {
             case R.id.Menusignout:
                 Toast.makeText(this, "sign out Menu",Toast.LENGTH_LONG).show();
                 break;
+            case  R.id.acountlogomenu:
+                Intent intent=new Intent(this,motion_test.class);
+                startActivity(intent);
+                break;
         }
         return true;
     }

@@ -2,8 +2,8 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="profile" android:id="@+id/MenuProfile" android:orderInCategory="100"  />
-    <item android:icon="@mipmap/ic_launcher_round" android:id="@+id/share" app:showAsAction="always"/>
+    <item android:title="profile" android:id="@+id/MenuProfile" android:orderInCategory="100"   />
+    <item android:icon="@drawable/ic_baseline_person_24" android:id="@+id/acountlogomenu" app:showAsAction="always" android:title="ypur profile"/>
     <item android:id="@+id/sign_in" app:showAsAction="always" android:title="sign in"/>
     <item android:title="settings" android:id="@+id/MenuSettings" android:orderInCategory="250"/>
     <item android:title="sign out"  android:id="@+id/Menusignout" android:orderInCategory="300"/>
