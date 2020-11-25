@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login"
+    tools:context=".LoginActivity"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
     android:orientation="vertical"
-    android:background="#0B1132">
+    android:id="@+id/loginLinear">
 
-    <TextView
+<TextView
         android:id="@+id/tvlogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,22 +19,21 @@
         android:gravity="center"
         android:textSize="35sp"
         android:fontFamily="@string/font_family"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:layout_marginTop="30dp"
 
         />
 
-    <EditText
+        <EditText
         android:id="@+id/etemail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="email"
+        android:backgroundTint="@android:color/black"
+            android:textColor="@android:color/black"
         android:fontFamily="@string/font_family"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
         android:drawableStart="@drawable/email_icon_custom"
         android:drawablePadding="10dp"
-        android:backgroundTint="@android:color/white"
         android:inputType="textEmailAddress"
         android:layout_marginTop="120dp"
         android:layout_marginHorizontal="40dp"
@@ -42,13 +44,12 @@
         android:id="@+id/etpassword"
         android:drawableStart="@drawable/lock_icon_custom"
         android:drawablePadding="10dp"
-        android:backgroundTint="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"
+        android:backgroundTint="@android:color/black"
+        android:textColor="@android:color/black"
         android:fontFamily="@string/font_family"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
         android:inputType="textPassword"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="40dp"
@@ -74,14 +75,16 @@
     android:layout_marginTop="20dp"
     android:orientation="horizontal">
     <TextView
+        android:id="@+id/doYouHaveAnAcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="you don't have an acount?"
+        android:backgroundTint="@android:color/black"
+        android:textColor="@android:color/black"
         android:textSize="15sp"
         android:fontFamily="@string/font_family"
-        android:textColor="@android:color/white"
         />
     <TextView
         android:id="@+id/registertv"
@@ -94,5 +97,12 @@
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="15sp"
         />
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 </LinearLayout>
+
+
 </LinearLayout>

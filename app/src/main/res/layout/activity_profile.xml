@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity"
+    android:orientation="vertical"
+    android:background="#0B1132"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="profile"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        android:fontFamily="@string/font_family"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileimage_profileactivity"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/white"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/nametv_profileactivity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:id="@+id/emailtv_profileactivity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:id="@+id/passwordtv_profileactivity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        />
+    <Button
+        android:id="@+id/iditimagebtn_profileactivity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_custom"
+        android:text="edit profile image"
+        android:textColor="@android:color/white"
+        android:fontFamily="@string/font_family"
+        />
+
+
+</LinearLayout>

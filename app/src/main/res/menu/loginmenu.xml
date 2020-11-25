@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/MenuProfile"
+        android:orderInCategory="100"
+        android:title="profile" />
+    <item android:icon="@drawable/ic_baseline_person_24"
+        android:id="@+id/LoginMenuaProfile"
+        app:showAsAction="always"
+        android:title="your profile"
+        />
+    <item android:id="@+id/LoginMenuchat" app:showAsAction="always" android:title="chat"
+        android:icon="@drawable/ic_baseline_chat_24"/>
+    <item android:title="sign out"  android:id="@+id/LoginMenusignout" android:orderInCategory="250"/>
+
+    <item android:title="settings" android:id="@+id/LoginMenuSettings" android:orderInCategory="301">
+        <menu>
+
+            <group>
+                <item android:title="theme" android:id="@+id/LoginMenuTheme" android:icon="@drawable/ic_baseline_wb_sunny_24"/>
+
+            </group>
+            <item android:title="language"/>
+            <item android:title="currency"/>
+        </menu>
+    </item>
+</menu>
