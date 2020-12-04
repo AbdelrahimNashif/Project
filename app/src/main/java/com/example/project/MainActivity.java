@@ -1,14 +1,13 @@
 package com.example.project;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -25,11 +24,13 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView maintv;
 
     private ListView listView;//display
-    private ArrayList<Startup> startupsList;//DATA
+    private ArrayList<Startup> StartupsList;//DATA
     private StartupAdapter arrayAdapter;//Adapter
     private Dialog d;
     private int themeId = R.drawable.ic_baseline_wb_sunny_24;
@@ -72,16 +73,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        postRef=firebaseDatabase.getReference("posts");
 
-        startupsList = new ArrayList<Startup>();
-        startupsList.add(new Startup("a", "a", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "aaaaaa", "aaa", "aa"));
-        startupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "bbbbbb", "bbb", "bb"));
-        startupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.formulas), "bbbbbb", "bbb", "bb"));
-        startupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background), "bbbbbb", "bbb", "bb"));
+        StartupsList = new ArrayList<Startup>();
+        StartupsList.add(new Startup("a", "a", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "aaaaaa", "aaa", "aa"));
+        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "bbbbbb", "bbb", "bb"));
+        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.formulas), "bbbbbb", "bbb", "bb"));
+        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background), "bbbbbb", "bbb", "bb"));
+        getAllPosts();
 
 
-        arrayAdapter = new StartupAdapter(this, R.layout.startup_layout, startupsList);
-        listView.setAdapter(arrayAdapter);
+
+    }
+
+    private void getAllPosts(){
+        postRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            for (DataSnapshot data: snapshot.getChildren()){
+                Startup startup=data.getValue(Startup.class);
+                StartupsList.add(startup);
+            }
+                arrayAdapter = new StartupAdapter(MainActivity.this, R.layout.startup_layout, StartupsList);
+                listView.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
            // Startup startupWithImage = startup;
            // startupWithImage.setImage(bitmap);
-            startupsList.add(startup);
+            StartupsList.add(startup);
             Toast.makeText(this, "published", Toast.LENGTH_LONG).show();
         }
 
@@ -219,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, PostActivity.class);
-        Startup startup = startupsList.get(i);
+        Startup startup = StartupsList.get(i);
         intent.putExtra("startup", startup);
         startActivity(intent);
 
