@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="#fff"
+   >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#0B1132">
+    android:background="#fff"
+    android:id="@+id/mainLinear">
 
     <TextView
+        android:id="@+id/maintv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Main Page"
         android:textSize="35sp"
-        android:textColor="@android:color/white"
-        android:fontFamily="@string/font_family"
+        android:textColor="@android:color/black"
         android:gravity="center"
         android:layout_marginTop="30dp"
         />
+
+
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mainListView"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
         />
+    
+
 
 </LinearLayout>
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/fabbtn"
+    android:layout_gravity="end|bottom"
+    android:layout_margin="16dp"
+    app:fabSize="normal"
+    android:backgroundTint="@color/darkBackground"
+    android:elevation="6dp"
+    android:src="@drawable/ic_baseline_add_24"
+
+    />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

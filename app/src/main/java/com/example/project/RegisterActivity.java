@@ -28,8 +28,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_register);
-        getSupportActionBar().setTitle("Register");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  getSupportActionBar().setTitle("Register");
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
        // sp=getSharedPreferences("myprefs",MODE_PRIVATE);
         nameet=findViewById(R.id.edregistername);

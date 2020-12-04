@@ -2,15 +2,38 @@ package com.example.project;
 
 import android.graphics.Bitmap;
 
-public class Startup {
-    private Bitmap image;
-    private String title,subtitle,text;
+import com.google.firebase.database.IgnoreExtraProperties;
 
-    public Startup(Bitmap image, String title, String subtitle, String text) {
+import java.io.Serializable;
+
+@IgnoreExtraProperties
+public class Startup implements Serializable {
+    private Bitmap image;
+    private String key,uid,title,subtitle,text;
+
+    public Startup(String key,String uid,Bitmap image, String title, String subtitle, String text) {
+        this.key=key;
+        this.uid=uid;
         this.image = image;
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Bitmap getImage() {

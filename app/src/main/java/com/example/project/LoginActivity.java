@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout linearLayout;
@@ -31,7 +27,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button loginbtn;
     private TextView tvlogin,registertv,doYou;
     private SharedPreferences sp;
-    private int themeId= R.drawable.ic_baseline_wb_sunny_24;
     private FirebaseAuth mAuth;
 
     @Override
@@ -53,65 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.loginmenu,menu);
-        return true;
-    }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.MenuProfile:
-                Toast.makeText(this, "Profile Menu item",Toast.LENGTH_LONG).show();
-                break;
-            case R.id.LoginMenuSettings:
-                Toast.makeText(this, "settings Menu",Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.LoginMenusignout:
-                Toast.makeText(this, "sign out Menu",Toast.LENGTH_LONG).show();
-                break;
-            case  R.id.LoginMenuaProfile:
-                Intent intent=new Intent(this, ProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.LoginMenuTheme:
-                if (themeId==R.drawable.ic_baseline_wb_sunny_24){
-                item.setIcon(R.drawable.ic_baseline_brightness_2_24);
-                themeId=R.drawable.ic_baseline_brightness_2_24;
-                    linearLayout.setBackgroundColor(getColor(R.color.darkBackground));
-                    tvlogin.setTextColor(getColor(R.color.darkColor));
-                    emailet.setHintTextColor(getColor(R.color.darkColor));
-                    emailet.setTextColor(getColor(R.color.darkColor));
-                    emailet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkColor)));
-                    passwordet.setHintTextColor(getColor(R.color.darkColor));
-                    passwordet.setTextColor(getColor(R.color.darkColor));
-                    passwordet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkColor)));
-                    doYou.setTextColor(getColor(R.color.darkColor));
-
-
-                }
-                else if(themeId==R.drawable.ic_baseline_brightness_2_24){
-                    item.setIcon(R.drawable.ic_baseline_wb_sunny_24);
-                    themeId=R.drawable.ic_baseline_wb_sunny_24;
-                    linearLayout.setBackgroundColor(getColor(R.color.brightBackground));
-                    tvlogin.setTextColor(getColor(R.color.brightColor));
-                    emailet.setTextColor(getColor(R.color.brightColor));
-                    emailet.setHintTextColor(getColor(R.color.brightColor));
-                    emailet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.brightColor)));
-                    passwordet.setTextColor(getColor(R.color.brightColor));
-                    passwordet.setHintTextColor(getColor(R.color.brightColor));
-                    passwordet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.brightColor)));
-                    doYou.setTextColor(getColor(R.color.brightColor));
-
-                }
-
-        break;
-                }
-        return true;
-    }
 
     @Override
     public void onClick(View view) {
