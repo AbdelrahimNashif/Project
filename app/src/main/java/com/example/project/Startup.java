@@ -7,11 +7,11 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.Serializable;
 
 @IgnoreExtraProperties
-public class Startup implements Serializable {
-    private Bitmap image;
+public class Startup  implements Serializable{
+    private String image;
     private String key,uid,title,subtitle,text;
 
-    public Startup(String key,String uid,Bitmap image, String title, String subtitle, String text) {
+    public Startup(String key,String uid,String image, String title, String subtitle, String text) {
         this.key=key;
         this.uid=uid;
         this.image = image;
@@ -19,6 +19,8 @@ public class Startup implements Serializable {
         this.subtitle = subtitle;
         this.text = text;
     }
+
+
 
     public String getKey() {
         return key;
@@ -36,11 +38,11 @@ public class Startup implements Serializable {
         this.uid = uid;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

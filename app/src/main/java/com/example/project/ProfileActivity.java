@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView profileimage;
@@ -43,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         nametv.setText(sp.getString("name", ""));
         emailtv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
         passwordtv.setText(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+
     }
 
     @Override
@@ -61,7 +66,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == camerabtndialog) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, 0);
-        } else if (view == gallerybtndialog) {
+        }
+          else if (view == gallerybtndialog) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
         }
@@ -81,12 +87,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "profile image didn't change ", Toast.LENGTH_LONG).show();
                 ;
             }
-        } else if (requestCode == 1) {
+        }
+        else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                //  Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-                //  profileimage.setImageBitmap(bitmap);
-                profileimage.setImageBitmap(bitmap);
+                try {
+                    InputStream inputStream=getContentResolver().openInputStream(data.getData());
+                    Bitmap bitmap=BitmapFactory.decodeStream(inputStream);
+                    profileimage.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         }
     }

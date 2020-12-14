@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,18 +32,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private LinearLayout linearLayout;
     private FloatingActionButton fab;
     private TextView maintv;
-
+    //listView
     private ListView listView;//display
     private ArrayList<Startup> StartupsList;//DATA
     private StartupAdapter arrayAdapter;//Adapter
+
     private Dialog d;
     private int themeId = R.drawable.ic_baseline_wb_sunny_24;
+    //firebase
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference postRef;
     private FirebaseAuth auth;
@@ -61,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        auth=FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        postRef = firebaseDatabase.getReference("posts");
 
         linearLayout = findViewById(R.id.mainLinear);
         maintv = findViewById(R.id.maintv);
@@ -72,30 +79,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        postRef=firebaseDatabase.getReference("posts");
-
         StartupsList = new ArrayList<Startup>();
-        StartupsList.add(new Startup("a", "a", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "aaaaaa", "aaa", "aa"));
-        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground), "bbbbbb", "bbb", "bb"));
-        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.formulas), "bbbbbb", "bbb", "bb"));
-        StartupsList.add(new Startup("b", "bb", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background), "bbbbbb", "bbb", "bb"));
-        getAllPosts();
+        Log.d("abdilrahim","0");
+        String str=BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky));
+       Log.d("abdilrahim","1");
 
+         StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.formulas)), "bbbbbb", "bbb", "bb"));
+        Log.d("abdilrahim","2");
+
+         StartupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky)), "aaaaaa", "aaa", "aa"));
+       // StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
+        //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
+        arrayAdapter = new StartupAdapter(MainActivity.this, R.layout.startup_layout, StartupsList);
+        listView.setAdapter(arrayAdapter);
+       // getAllPosts();
 
 
     }
 
-    private void getAllPosts(){
+    private void getAllPosts() {
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-            for (DataSnapshot data: snapshot.getChildren()){
-                Startup startup=data.getValue(Startup.class);
-                StartupsList.add(startup);
-            }
-                arrayAdapter = new StartupAdapter(MainActivity.this, R.layout.startup_layout, StartupsList);
-                listView.setAdapter(arrayAdapter);
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Startup startup = data.getValue(Startup.class);
+                    StartupsList.add(startup);
+                }
+
             }
 
             @Override
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.LoginMenusignout:
                 Toast.makeText(this, "sign out", Toast.LENGTH_LONG).show();
                 auth.signOut();
-                Intent signoutIntent=new Intent(this,LoginActivity.class);
+                Intent signoutIntent = new Intent(this, LoginActivity.class);
                 startActivity(signoutIntent);
                 break;
             case R.id.LoginMenuaProfile:
@@ -173,18 +183,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == publishbtn) {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-            Startup startup = new Startup("", uid, bitmap, title.getText().toString(), subtitle.getText().toString(), text.getText().toString());
+            Startup startup = new Startup("", uid, BitMapToString(bitmap), title.getText().toString(), subtitle.getText().toString(), text.getText().toString());
             postRef = firebaseDatabase.getReference("posts").push();
             startup.setKey(postRef.getKey());//?
             postRef.setValue(startup);
 
-           // Startup startupWithImage = startup;
-           // startupWithImage.setImage(bitmap);
-            StartupsList.add(startup);
+            // Startup startupWithImage = startup;
+            // startupWithImage.setImage(bitmap);
+          //  StartupsList.add(startup);
             Toast.makeText(this, "published", Toast.LENGTH_LONG).show();
         }
 
-        if (view == imagebtn) {
+        else if (view == imagebtn) {
             d = new Dialog(this);
             d.setContentView(R.layout.activity_edit_profile_image_dialog);
             d.setCancelable(true);
@@ -195,13 +205,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             d.show();
 
 
-        } else if (view == camerabtndialog) {
+        }
+        else if (view == camerabtndialog) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, 0);
-        } else if (view == gallerybtndialog) {
+        }
+        else if (view == gallerybtndialog) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
-        } else if (view == fab) {
+        }
+        else if (view == fab) {
             d = new Dialog(this);
             d.setContentView(R.layout.activity_post_dialog);
             d.setCancelable(true);
@@ -229,11 +242,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "profile image didn't change ", Toast.LENGTH_LONG).show();
                 ;
             }
-        } else if (requestCode == 1) {
+        }
+        else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                bitmap = (Bitmap) data.getExtras().get("data");
-
-            }
+                try {
+                    InputStream inputStream=getContentResolver().openInputStream(data.getData());
+                     bitmap=BitmapFactory.decodeStream(inputStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }            }
         }
     }
 
@@ -250,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;

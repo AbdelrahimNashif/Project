@@ -40,7 +40,7 @@ public class StartupAdapter extends ArrayAdapter<Startup> {
 
         title.setText(temp.getTitle());
         subtitle.setText(temp.getSubtitle());
-        imageView.setImageBitmap( temp.getImage());
+        imageView.setImageBitmap( StringToBitMap(temp.getImage()));
         return view;
     }
 
