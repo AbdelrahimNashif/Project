@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Startup> StartupsList;//DATA
     private StartupAdapter arrayAdapter;//Adapter
 
-    private Dialog d;
+    private Dialog d,d1;
     private int themeId = R.drawable.ic_baseline_wb_sunny_24;
     //firebase
     private FirebaseDatabase firebaseDatabase;
@@ -80,14 +80,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
         StartupsList = new ArrayList<Startup>();
-        Log.d("abdilrahim","0");
-        String str=BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky));
+
        Log.d("abdilrahim","1");
 
          StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.formulas)), "bbbbbb", "bbb", "bb"));
         Log.d("abdilrahim","2");
 
-         StartupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky)), "aaaaaa", "aaa", "aa"));
+         StartupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa"));
        // StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
         //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
         arrayAdapter = new StartupAdapter(MainActivity.this, R.layout.startup_layout, StartupsList);
@@ -183,26 +182,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == publishbtn) {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-            Startup startup = new Startup("", uid, BitMapToString(bitmap), title.getText().toString(), subtitle.getText().toString(), text.getText().toString());
-            postRef = firebaseDatabase.getReference("posts").push();
-            startup.setKey(postRef.getKey());//?
-            postRef.setValue(startup);
+            Startup startup;
+            if(bitmap==null)
+                Toast.makeText(this,"please choose a picture",Toast.LENGTH_LONG).show();
+            else {
+                startup = new Startup("", uid, BitMapToString(bitmap), title.getText().toString(), subtitle.getText().toString(), text.getText().toString());
 
-            // Startup startupWithImage = startup;
-            // startupWithImage.setImage(bitmap);
-          //  StartupsList.add(startup);
-            Toast.makeText(this, "published", Toast.LENGTH_LONG).show();
+                postRef = firebaseDatabase.getReference("posts").push();
+                startup.setKey(postRef.getKey());
+
+                postRef.setValue(startup);
+
+                // Startup startupWithImage = startup;
+                // startupWithImage.setImage(bitmap);
+                StartupsList.add(startup);
+                arrayAdapter.notifyDataSetChanged();
+
+                Toast.makeText(this, "published", Toast.LENGTH_LONG).show();
+                d.dismiss();
+            }
+
         }
 
         else if (view == imagebtn) {
-            d = new Dialog(this);
-            d.setContentView(R.layout.activity_edit_profile_image_dialog);
-            d.setCancelable(true);
-            camerabtndialog = d.findViewById(R.id.camerabtn_profile_dialog);
+            d1 = new Dialog(this);
+            d1.setContentView(R.layout.activity_edit_profile_image_dialog);
+            d1.setCancelable(true);
+            camerabtndialog = d1.findViewById(R.id.camerabtn_profile_dialog);
             camerabtndialog.setOnClickListener(this);
-            gallerybtndialog = d.findViewById(R.id.gallerybtn_profile_dialog);
+            gallerybtndialog = d1.findViewById(R.id.gallerybtn_profile_dialog);
             gallerybtndialog.setOnClickListener(this);
-            d.show();
+            d1.show();
 
 
         }
@@ -233,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        d.dismiss();
+
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
@@ -252,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }            }
         }
+        d1.dismiss();
     }
 
     @Override
@@ -267,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;

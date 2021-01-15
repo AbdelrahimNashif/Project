@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class PostActivity extends AppCompatActivity {
+public class    PostActivity extends AppCompatActivity {
     TextView title,subtitle,text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

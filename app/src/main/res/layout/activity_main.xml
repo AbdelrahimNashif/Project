@@ -18,7 +18,7 @@
         android:id="@+id/maintv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Main Page"
+        android:text="lets startup"
         android:textSize="35sp"
         android:textColor="@android:color/black"
         android:gravity="center"
