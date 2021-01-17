@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView maintv;
     //listView
     private ListView listView;//display
-    private ArrayList<Startup> StartupsList;//DATA
+    private ArrayList<Startup> startupsList;//DATA
     private StartupAdapter arrayAdapter;//Adapter
 
     private Dialog d,d1;
@@ -79,19 +79,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
-        StartupsList = new ArrayList<Startup>();
+        startupsList = new ArrayList<Startup>();
 
        Log.d("abdilrahim","1");
 
-         StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.formulas)), "bbbbbb", "bbb", "bb"));
+
         Log.d("abdilrahim","2");
 
-         StartupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa"));
        // StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
         //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
-        arrayAdapter = new StartupAdapter(MainActivity.this, R.layout.startup_layout, StartupsList);
-        listView.setAdapter(arrayAdapter);
-       // getAllPosts();
+        arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
+        getAllPosts();
 
 
     }
@@ -100,11 +98,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                startupsList=new ArrayList<Startup>();
+                startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.formulas)), "bbbbbb", "bbb", "bb"));
+                startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa"));
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Startup startup = data.getValue(Startup.class);
-                    StartupsList.add(startup);
+                    startupsList.add(startup);
                 }
-
+                arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
+                listView.setAdapter(arrayAdapter);
             }
 
             @Override
@@ -140,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     themeId = R.drawable.ic_baseline_brightness_2_24;
                     linearLayout.setBackgroundColor(getColor(R.color.darkBackground));
                     maintv.setTextColor(getColor(R.color.darkColor));
-                    listItemTitle.setTextColor(getColor(R.color.darkColor));
-                    listItemSubtitle.setTextColor(getColor(R.color.darkColor));
+                    ///listItemTitle.setTextColor(getColor(R.color.darkColor));
+                  ///  listItemSubtitle.setTextColor(getColor(R.color.darkColor));
                   /*  emailet.setHintTextColor(getColor(R.color.darkColor));
                     emailet.setTextColor(getColor(R.color.darkColor));
                     emailet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkColor)));
@@ -158,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     themeId = R.drawable.ic_baseline_wb_sunny_24;
                     linearLayout.setBackgroundColor(getColor(R.color.brightBackground));
                     maintv.setTextColor(getColor(R.color.brightColor));
-                    listItemTitle.setTextColor(getColor(R.color.brightColor));
-                    listItemSubtitle.setTextColor(getColor(R.color.brightColor));
+                 ///   listItemTitle.setTextColor(getColor(R.color.brightColor));
+                 ///   listItemSubtitle.setTextColor(getColor(R.color.brightColor));
                    /* emailet.setTextColor(getColor(R.color.brightColor));
                     emailet.setHintTextColor(getColor(R.color.brightColor));
                     emailet.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.brightColor)));
@@ -192,11 +194,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startup.setKey(postRef.getKey());
 
                 postRef.setValue(startup);
-
+                // startupsList.clear();
+               // arrayAdapter.notifyDataSetChanged();
                 // Startup startupWithImage = startup;
                 // startupWithImage.setImage(bitmap);
-                StartupsList.add(startup);
-                arrayAdapter.notifyDataSetChanged();
+                //StartupsList.add(startup);
+
 
                 Toast.makeText(this, "published", Toast.LENGTH_LONG).show();
                 d.dismiss();
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, PostActivity.class);
-        Startup startup = StartupsList.get(i);
+        Startup startup = startupsList.get(i);
         intent.putExtra("startup", startup);
         startActivity(intent);
 

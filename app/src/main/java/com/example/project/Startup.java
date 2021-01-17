@@ -19,7 +19,9 @@ public class Startup  implements Serializable{
         this.subtitle = subtitle;
         this.text = text;
     }
+    public Startup(){
 
+}
 
 
 
