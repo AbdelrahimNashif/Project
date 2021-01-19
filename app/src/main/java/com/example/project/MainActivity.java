@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private LinearLayout linearLayout;
+    private SharedPreferences sp;
     private FloatingActionButton fab;
     private TextView maintv;
     //listView
@@ -70,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase = FirebaseDatabase.getInstance();
         postRef = firebaseDatabase.getReference("posts");
 
+        sp=getSharedPreferences("mySP",0);
+
+
         linearLayout = findViewById(R.id.mainLinear);
         maintv = findViewById(R.id.maintv);
         fab = findViewById(R.id.fabbtn);
@@ -91,7 +97,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
         getAllPosts();
 
+        /*theme
+        if(!sp.contains("themeId")){
+            sp.edit().putInt("themeId",ic_baseline_brightness_2_24)
+        }
+            if (themeId == R.drawable.ic_baseline_wb_sunny_24) {
+                item.setIcon(R.drawable.ic_baseline_brightness_2_24);
+                themeId = R.drawable.ic_baseline_brightness_2_24;
+                linearLayout.setBackgroundColor(getColor(R.color.darkBackground));
+                maintv.setTextColor(getColor(R.color.darkColor));
+            } else if (themeId == R.drawable.ic_baseline_brightness_2_24) {
+                item.setIcon(R.drawable.ic_baseline_wb_sunny_24);
+                themeId = R.drawable.ic_baseline_wb_sunny_24;
+                linearLayout.setBackgroundColor(getColor(R.color.brightBackground));
+                maintv.setTextColor(getColor(R.color.brightColor));
+            }
 
+         */
     }
 
     private void getAllPosts() {
@@ -99,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 startupsList=new ArrayList<Startup>();
-                startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.formulas)), "bbbbbb", "bbb", "bb"));
                 startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa"));
+                startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "bbbbbb", "bbb", "bb"));
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Startup startup = data.getValue(Startup.class);
                     startupsList.add(startup);
@@ -137,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.LoginMenuTheme:
+                if(sp.contains("themeId"))
                 if (themeId == R.drawable.ic_baseline_wb_sunny_24) {
                     item.setIcon(R.drawable.ic_baseline_brightness_2_24);
                     themeId = R.drawable.ic_baseline_brightness_2_24;
@@ -158,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (themeId == R.drawable.ic_baseline_brightness_2_24) {
                     item.setIcon(R.drawable.ic_baseline_wb_sunny_24);
                     themeId = R.drawable.ic_baseline_wb_sunny_24;
-                    linearLayout.setBackgroundColor(getColor(R.color.brightBackground));
+                    linearLayout.setBackgroundResource(R.drawable.backgroundtwo);
                     maintv.setTextColor(getColor(R.color.brightColor));
                  ///   listItemTitle.setTextColor(getColor(R.color.brightColor));
                  ///   listItemSubtitle.setTextColor(getColor(R.color.brightColor));
@@ -230,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (view == fab) {
             d = new Dialog(this);
             d.setContentView(R.layout.activity_post_dialog);
+
             d.setCancelable(true);
             title = d.findViewById(R.id.postdialogtitle);
             subtitle = d.findViewById(R.id.postdialogsubtitle);
@@ -292,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param encodedString
      * @return bitmap (from given string)
      */
-    public Bitmap StringToBitMap(String encodedString) {
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);

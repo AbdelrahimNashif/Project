@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".EditImageDialogActivity"
     android:orientation="vertical"
-    android:background="#0B1132"
+    android:background="#fff"
     android:padding="20dp">
 
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="Edit profile"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity"
     android:orientation="vertical"
-    android:background="#0B1132"
+    android:background="@drawable/backgroundthree"
     >
 
     <TextView

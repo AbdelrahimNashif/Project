@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
 
             */
+
         creatUser(emailet,passwordet);
         }
 
@@ -67,6 +68,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(RegisterActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                            startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.

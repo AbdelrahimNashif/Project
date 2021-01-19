@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout linearLayout;
     private EditText emailet,passwordet;
     private Button loginbtn;
-    private TextView tvlogin,registertv,doYou;
-    private SharedPreferences sp;
+    private TextView tvlogin,registertv,doYou,reset;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
         linearLayout=findViewById(R.id.loginLinear);
         tvlogin=findViewById(R.id.tvlogin);
-        sp=getSharedPreferences("myprefs",MODE_PRIVATE);
         emailet=findViewById(R.id.etemail);
         passwordet=findViewById(R.id.etpassword);
         loginbtn=findViewById(R.id.btnlogin);
@@ -45,9 +44,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         registertv=findViewById(R.id.registertv);
         registertv.setOnClickListener(this);
         doYou=findViewById(R.id.doYouHaveAnAcount);
+        reset=findViewById(R.id.mainactivityrestpass);
+        reset.setOnClickListener(this);
 
 
-    }
+
+     }
 
 
 
@@ -67,7 +69,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }
-
+        else if(view==reset){
+            if(emailet.getText().toString().equals(null))
+                Toast.makeText(this,"insert an email",Toast.LENGTH_LONG).show();
+            else
+            mAuth.sendPasswordResetEmail(emailet.getText().toString());
+        }
 
     }
 
