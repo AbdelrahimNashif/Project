@@ -18,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +40,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
     private LinearLayout linearLayout;
     private SharedPreferences sp;
     private FloatingActionButton fab;
     private TextView maintv;
+    private Button sbtn,fbtn,abtn;
+    private String selectedType="a";
     //listView
     private ListView listView;//display
     private ArrayList<Startup> startupsList;//DATA
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //dialog content
     private EditText title, subtitle, text;
+    private Switch aSwitch;
+    private String type="s";
     private Button imagebtn, publishbtn;
     private Bitmap bitmap;
     //dialog2 content
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); 
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -78,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         linearLayout = findViewById(R.id.mainLinear);
         maintv = findViewById(R.id.maintv);
+        sbtn=findViewById(R.id.mainactivitySbtn);
+        fbtn=findViewById(R.id.mainactivityfbtn);
+        abtn=findViewById(R.id.mainactivityabtn);
+        sbtn.setOnClickListener(this);
+        fbtn.setOnClickListener(this);
+        abtn.setOnClickListener(this);
         fab = findViewById(R.id.fabbtn);
         fab.setOnClickListener(this);
         listItemTitle = findViewById(R.id.startuptitle);
@@ -117,16 +129,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getAllPosts() {
+        postRef = firebaseDatabase.getReference("posts");
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 startupsList=new ArrayList<Startup>();
-                startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa"));
-                startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "bbbbbb", "bbb", "bb"));
+              //  startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa","s"));
+              //  startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "bbbbbb", "bbb", "bb","s"));
+                if (selectedType.equals("a"))
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    Startup startup = data.getValue(Startup.class);
-                    startupsList.add(startup);
+                        Startup startup = data.getValue(Startup.class);
+                        startupsList.add(startup);
+
                 }
+                else
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Startup startup = data.getValue(Startup.class);
+                        if (startup.getType().equals(selectedType))
+                        startupsList.add(startup);
+                    }
                 arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
                 listView.setAdapter(arrayAdapter);
             }
@@ -137,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -204,19 +226,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
+        if(view==fbtn) {
+            selectedType = "f";
+            getAllPosts();
+        }
+        else if (view==sbtn) {
+            selectedType = "s";
+            getAllPosts();
+        }
+        else if (view==abtn) {
+            selectedType = "a";
+            getAllPosts();
+        }
         if (view == publishbtn) {
+
+
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
             Startup startup;
             if(bitmap==null)
                 Toast.makeText(this,"please choose a picture",Toast.LENGTH_LONG).show();
             else {
-                startup = new Startup("", uid, BitMapToString(bitmap), title.getText().toString(), subtitle.getText().toString(), text.getText().toString());
+                startup = new Startup("", uid, BitMapToString(bitmap), title.getText().toString(), subtitle.getText().toString(), text.getText().toString(),type );
 
                 postRef = firebaseDatabase.getReference("posts").push();
                 startup.setKey(postRef.getKey());
-
                 postRef.setValue(startup);
+
                 // startupsList.clear();
                // arrayAdapter.notifyDataSetChanged();
                 // Startup startupWithImage = startup;
@@ -258,10 +293,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             title = d.findViewById(R.id.postdialogtitle);
             subtitle = d.findViewById(R.id.postdialogsubtitle);
             text = d.findViewById(R.id.postdialogtext);
+            aSwitch=d.findViewById(R.id.postdialogswitch);
             imagebtn = d.findViewById(R.id.postdialoggallery);
             imagebtn.setOnClickListener(this);
             publishbtn = d.findViewById(R.id.postdialogpublishbtn);
             publishbtn.setOnClickListener(this);
+            aSwitch.setOnCheckedChangeListener(this);
             d.show();
         }
     }
@@ -303,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public String BitMapToString(Bitmap bitmap) {
+    public static String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
@@ -326,6 +363,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return null;
 
         }
+
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            if(b)
+                type="f";
+            else
+                type="s";
 
     }
 }

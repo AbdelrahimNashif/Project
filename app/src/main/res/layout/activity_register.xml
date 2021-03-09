@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
     android:orientation="vertical"
-    android:background="#0B1132">
+    android:background="@drawable/background">
 
 
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="register"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:gravity="center"
         android:layout_marginTop="20dp"
@@ -25,12 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="name"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
         android:drawableStart="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
-        android:drawableTint="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:drawableTint="#FF2EE2"
         android:layout_marginTop="100dp"
         android:layout_marginHorizontal="40dp"
         />
@@ -40,12 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="email"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
         android:drawableStart="@drawable/ic_baseline_email_24"
         android:drawablePadding="10dp"
-        android:drawableTint="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:drawableTint="#FF2EE2"
         android:inputType="textEmailAddress"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="40dp"
@@ -56,12 +50,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawablePadding="10dp"
-        android:drawableTint="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:drawableTint="#FF2EE2"
         android:inputType="textPassword"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="40dp"
@@ -74,7 +65,7 @@
         android:textAllCaps="false"
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:text="reigester"
+        android:text="register"
         android:textColor="#fff"
         android:background="@drawable/button_custom"
         />

@@ -16,19 +16,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText nameet,emailet,passwordet;
     private Button registerbtn;
   //  private SharedPreferences sp;
     private FirebaseAuth mAuth;
-
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userRef;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_register);
-      //  getSupportActionBar().setTitle("Register");
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase=FirebaseDatabase.getInstance();
+        userRef=firebaseDatabase.getReference().child("users");
+
+        //  getSupportActionBar().setTitle("Register");
       //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
        // sp=getSharedPreferences("myprefs",MODE_PRIVATE);
@@ -37,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         passwordet=findViewById(R.id.etregisterpassword);
         registerbtn=findViewById(R.id.registerregisterbtn);
         registerbtn.setOnClickListener(this);
+
+
 
     }
 
@@ -55,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             */
 
         creatUser(emailet,passwordet);
+
         }
 
     }
@@ -66,6 +76,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                            user=new User(uid,nameet.getText().toString());
+                            userRef.push().setValue(user);
+
                             Toast.makeText(RegisterActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);

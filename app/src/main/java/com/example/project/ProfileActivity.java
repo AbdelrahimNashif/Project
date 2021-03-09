@@ -1,5 +1,6 @@
 package com.example.project;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -30,6 +36,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private SharedPreferences sp;
     private Button camerabtndialog, gallerybtndialog;
     private FirebaseAuth mAuth;
+    private DatabaseReference userRef;
+    private String uid;
 
 
     @Override
@@ -37,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth=FirebaseAuth.getInstance();
+        userRef= FirebaseDatabase.getInstance().getReference("users");
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         sp = getSharedPreferences("myprefs", MODE_PRIVATE);
         profileimage = findViewById(R.id.profileimage_profileactivity);
         nametv = findViewById(R.id.nametv_profileactivity);
@@ -44,10 +54,28 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         passwordtv = findViewById(R.id.passwordtv_profileactivity);
         iditimagebtn = findViewById(R.id.iditimagebtn_profileactivity);
         iditimagebtn.setOnClickListener(this);
-        nametv.setText(sp.getString("name", ""));
-        emailtv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
-        passwordtv.setText(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+        nametv.setText("a");
+        emailtv.setText(mAuth.getCurrentUser().getEmail().toString());
+        passwordtv.setText(mAuth.getCurrentUser().getUid().toString());
 
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    User user=ds.getValue(User.class);
+                    if(user.getUid()!=null)
+                        if(user.getUid().equals(uid)){
+                        nametv.setText(user.getName());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

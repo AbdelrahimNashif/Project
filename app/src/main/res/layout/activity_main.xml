@@ -13,7 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/backgroundtwo"
+    android:background="@drawable/softcolorsplants"
     android:id="@+id/mainLinear">
 
     <TextView
@@ -33,16 +33,32 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:padding="10dp">
         <Button
-            android:layout_width="150dp"
+            android:id="@+id/mainactivitySbtn"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/main_buttons_custom"
+            android:layout_marginHorizontal="10dp"
             android:text="Startups"
             android:textAllCaps="false"
             />
         <Button
-            android:layout_width="150dp"
+            android:id="@+id/mainactivityabtn"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/main_buttons_custom"
+            android:layout_marginHorizontal="10dp"
+            android:text="All"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/mainactivityfbtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_buttons_custom"
+            android:layout_marginHorizontal="10dp"
             android:text="Financiers"
             android:textAllCaps="false"/>
 
@@ -57,7 +73,7 @@
         android:scrollbars="none"
 
               />
-    
+
 
 
 </LinearLayout>

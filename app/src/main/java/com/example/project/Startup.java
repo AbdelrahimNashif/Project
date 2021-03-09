@@ -1,4 +1,4 @@
-package com.example.project;
+    package com.example.project;
 
 import android.graphics.Bitmap;
 
@@ -9,19 +9,20 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class Startup  implements Serializable{
     private String image;
-    private String key,uid,title,subtitle,text;
+    private String key,uid,title,subtitle,text,type;
 
-    public Startup(String key,String uid,String image, String title, String subtitle, String text) {
+    public Startup(String key,String uid,String image, String title, String subtitle, String text,String type) {
         this.key=key;
         this.uid=uid;
         this.image = image;
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
+        this.type=type;
     }
     public Startup(){
 
-}
+    }
 
 
 
@@ -73,13 +74,24 @@ public class Startup  implements Serializable{
         this.text = text;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
-    public String  toString() {
+    public String toString() {
         return "Startup{" +
-                "image=" + image +
+                "image='" + image + '\'' +
+                ", key='" + key + '\'' +
+                ", uid='" + uid + '\'' +
                 ", title='" + title + '\'' +
                 ", subtitle='" + subtitle + '\'' +
                 ", text='" + text + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
