@@ -4,7 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".posts_list"
+    tools:context=".posts_listActivity"
     android:background="@drawable/softcolorsplants">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainListView"
+        android:scrollbars="none"
+        android:layout_marginHorizontal="10dp"
 
+        />
 </LinearLayout>

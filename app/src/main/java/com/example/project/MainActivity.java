@@ -1,6 +1,5 @@
 package com.example.project;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,52 +11,42 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ShareActionProvider;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private LinearLayout linearLayout;
     private SharedPreferences sp;
     private FloatingActionButton fab;
     private TextView maintv;
     private Button sbtn,fbtn,abtn;
     private String selectedType="a";
-    //listView
-    private ListView listView;//display
-    private ArrayList<Startup> startupsList;//DATA
-    private StartupAdapter arrayAdapter;//Adapter
 
-    private Dialog d,d1;
-    private int themeId = R.drawable.ic_baseline_wb_sunny_24;
     //firebase
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference postRef;
     private FirebaseAuth auth;
+
+    private Dialog d,d1;
+    private int themeId = R.drawable.ic_baseline_wb_sunny_24;
+
 
     //dialog content
     private EditText title, subtitle, text;
@@ -75,9 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
         setContentView(R.layout.activity_main);
-        auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        postRef = firebaseDatabase.getReference("posts");
+
 
         sp=getSharedPreferences("mySP",0);
 
@@ -95,19 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listItemTitle = findViewById(R.id.startuptitle);
         listItemSubtitle = findViewById(R.id.startupsubtitle);
 
-        listView = findViewById(R.id.mainListView);
-        listView.setOnItemClickListener(this);
-        startupsList = new ArrayList<Startup>();
-
-       Log.d("abdilrahim","1");
-
-
-        Log.d("abdilrahim","2");
-
-       // StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
-        //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
-        arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
-        getAllPosts();
+        auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        postRef = firebaseDatabase.getReference("posts");
 
         /*theme
         if(!sp.contains("themeId")){
@@ -128,36 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
     }
 
-    private void getAllPosts() {
-        postRef = firebaseDatabase.getReference("posts");
-        postRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                startupsList=new ArrayList<Startup>();
-              //  startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa","s"));
-              //  startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "bbbbbb", "bbb", "bb","s"));
-                if (selectedType.equals("a"))
-                for (DataSnapshot data : snapshot.getChildren()) {
-                        Startup startup = data.getValue(Startup.class);
-                        startupsList.add(startup);
 
-                }
-                else
-                    for (DataSnapshot data : snapshot.getChildren()) {
-                        Startup startup = data.getValue(Startup.class);
-                        if (startup.getType().equals(selectedType))
-                        startupsList.add(startup);
-                    }
-                arrayAdapter = new StartupAdapter(MainActivity.this, 0, startupsList);
-                listView.setAdapter(arrayAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -228,15 +176,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view==fbtn) {
             selectedType = "f";
-            getAllPosts();
+            Intent intent=new Intent(this, posts_listActivity.class);
+            intent.putExtra("selectedType",selectedType);
+            startActivity(intent);
+
         }
         else if (view==sbtn) {
             selectedType = "s";
-            getAllPosts();
+            Intent intent=new Intent(this, posts_listActivity.class);
+            intent.putExtra("selectedType",selectedType);
+            startActivity(intent);
+
         }
         else if (view==abtn) {
             selectedType = "a";
-            getAllPosts();
+            Intent intent=new Intent(this, posts_listActivity.class);
+            intent.putExtra("selectedType",selectedType);
+            startActivity(intent);
+
         }
         if (view == publishbtn) {
 
@@ -329,15 +286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         d1.dismiss();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, PostActivity.class);
-        Startup startup = startupsList.get(i);
-        intent.putExtra("startup", startup);
-        startActivity(intent);
 
-
-    }
 
 
     public static String BitMapToString(Bitmap bitmap) {

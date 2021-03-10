@@ -8,7 +8,7 @@
     tools:context=".PostActivity"
     android:orientation="vertical"
     android:id="@+id/postactivitylinear"
-    android:background="@drawable/background"
+    android:background="@drawable/softcolorsplants"
     android:scrollbars="none"
 
     >
@@ -17,13 +17,114 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/postaccount_custom"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/postactivity_accountimage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_baseline_account_circle_24"
+                app:civ_border_color="@android:color/black"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/postactivity_nameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic_baseline_account_circle_24_small"
+                android:drawableTint="@android:color/black"
+                android:hint="name"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/postactivity_accountimage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/postActivity_emailTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_baseline_email_24"
+                android:drawableTint="@android:color/black"
+                android:text="email"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/postactivity_accountimage"
+                app:layout_constraintTop_toBottomOf="@+id/postactivity_nameTv" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="from"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/postactivity_accountimage"
+                app:layout_constraintTop_toBottomOf="@+id/postActivity_emailTv" />
+
+            <TextView
+                android:id="@+id/postactivity_countryTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="country"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/postActivity_emailTv" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="gender"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/postactivity_accountimage"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/postactivity_genderTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:hint="male/ female"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/postactivity_countryTv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageView
             android:id="@+id/postactivityimageview"
         android:layout_width="match_parent"
         android:layout_height="454dp"
         android:src="@drawable/sky1"
+            android:layout_marginTop="20dp"
             />
-    <TextView
+        <TextView
         android:id="@+id/postactivitytitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +145,7 @@
         android:layout_marginTop="20dp"
         android:text="subtitle subtitle subtitle subtitle"
         android:textSize="18sp"
+        android:textColor="@android:color/black"
         android:padding="10dp"
         android:background="@drawable/posttextviewcustom"
         />
@@ -57,6 +159,7 @@
         android:layout_marginBottom="100dp"
         android:text="text text text text text text text text text text\n d"
         android:padding="10dp"
+        android:textColor="@android:color/black"
         android:background="@drawable/posttextviewcustom"
         />
 

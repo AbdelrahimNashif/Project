@@ -10,75 +10,77 @@
 
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/softcolorsplants"
-    android:id="@+id/mainLinear">
-
-    <TextView
-        android:id="@+id/maintv"
+        android:id="@+id/mainLinear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="lets startup"
-        android:textSize="35sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        />
+        android:layout_height="match_parent"
+        android:background="@drawable/softcolorsplants"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="40dp"
-        android:padding="10dp">
-        <Button
-            android:id="@+id/mainactivitySbtn"
-            android:layout_width="100dp"
+        <TextView
+            android:id="@+id/maintv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/main_buttons_custom"
-            android:layout_marginHorizontal="10dp"
-            android:text="Startups"
-            android:textAllCaps="false"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="10"
+            android:text="lets startup"
+            android:textColor="@android:color/white"
+            android:textSize="50sp"
+            android:textStyle="bold"
+
             />
-        <Button
-            android:id="@+id/mainactivityabtn"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/main_buttons_custom"
-            android:layout_marginHorizontal="10dp"
-            android:text="All"
-            android:textAllCaps="false"/>
 
-        <Button
-            android:id="@+id/mainactivityfbtn"
-            android:layout_width="100dp"
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/main_buttons_custom"
-            android:layout_marginHorizontal="10dp"
-            android:text="Financiers"
-            android:textAllCaps="false"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/mainactivityabtn"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:background="@drawable/main_buttons_custom"
+
+                android:text="All"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/mainactivitySbtn"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/main_buttons_custom"
+
+                android:text="Startups"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:id="@+id/mainactivityfbtn"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/main_buttons_custom"
+
+                android:text="Financiers"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mainListView"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:scrollbars="none"
-
-              />
-
-
-
-</LinearLayout>
-
-<com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/fabbtn"

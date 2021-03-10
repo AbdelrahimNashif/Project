@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void creatUser(EditText emailet, EditText passwordet) {
+    private void creatUser(final EditText emailet, EditText passwordet) {
         mAuth.createUserWithEmailAndPassword(emailet.getText().toString(), passwordet.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -77,8 +77,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-                            user=new User(uid,nameet.getText().toString());
-                            userRef.push().setValue(user);
+                            user=new User(uid,nameet.getText().toString(),emailet.getText().toString(),"","");
+                            userRef.child(uid).setValue(user);
 
                             Toast.makeText(RegisterActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();

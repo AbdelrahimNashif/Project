@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/profilemenu_editProfile" android:title="edit profile" android:icon="@drawable/ic_baseline_edit_24" app:showAsAction="always"/>
+    <item android:title="edit profile image"  android:icon="@drawable/ic_baseline_edit_24" android:id="@+id/profilemenu_editprofileimage"  />
+    <item android:title="reset password" android:id="@+id/profilemenu_resetpassword"/>
+</menu>
