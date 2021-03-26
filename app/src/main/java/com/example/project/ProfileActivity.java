@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -42,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
     private String uid;
+    private Bitmap bitmap;
+
     //edit profile dialog
     private EditText dialogName, dialogCountry;
     private RadioButton dialogMaleRBtn, dialogFemaleRBtn;
@@ -79,6 +83,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 gendertv.setText(user.getGender());
                             if(user.getCountry()!="")
                                 countrytv.setText(user.getCountry());
+                            if(user.getImage()!=null)
+                                profileimage.setImageBitmap(StringToBitMap(user.getImage()));
 
                         break;
                     }
@@ -142,8 +148,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         d.dismiss();
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                profileimage.setImageBitmap(bitmap);
+                bitmap = (Bitmap) data.getExtras().get("data");
+               // profileimage.setImageBitmap(bitmap);
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            User user=ds.getValue(User.class);
+                            if(user.getUid()!=null)
+                                if(user.getUid().equals(uid)){
+                                    user.setImage(BitMapToString(bitmap));
+                                    userRef.child(uid).child("image").setValue(user.getImage());
+                                    break;
+                                }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "profile image didn't change ", Toast.LENGTH_LONG).show();
@@ -154,12 +181,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (resultCode == RESULT_OK) {
                 try {
                     InputStream inputStream=getContentResolver().openInputStream(data.getData());
-                    Bitmap bitmap=BitmapFactory.decodeStream(inputStream);
-                    profileimage.setImageBitmap(bitmap);
+                    bitmap=BitmapFactory.decodeStream(inputStream);
+                //    profileimage.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            User user=ds.getValue(User.class);
+                            if(user.getUid()!=null)
+                                if(user.getUid().equals(uid)){
+                                    user.setImage(BitMapToString(bitmap));
+                                    userRef.child(uid).child("image").setValue(user.getImage());
+                                    break;
+                                }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
             }
         }
@@ -203,5 +250,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         return true;
     }
 
+
+    public static String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+
+        }
+
+    }
 
 }

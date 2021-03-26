@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Project</string>
     <string name="font_family">cursive</string>
+    <string name="channel_name">login_notifaction_channel</string>
+    <string name="channel_description">description_for_the_channel</string>
 </resources>

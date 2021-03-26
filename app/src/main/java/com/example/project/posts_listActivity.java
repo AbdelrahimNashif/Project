@@ -3,6 +3,9 @@ package com.example.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +53,9 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
         //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
         arrayAdapter = new StartupAdapter(posts_listActivity.this, 0, startupsList);
         getAllPosts();
+
+
+
     }
     private void getAllPosts() {
         Intent intent=getIntent();

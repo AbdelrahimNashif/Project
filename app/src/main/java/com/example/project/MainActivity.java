@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
+        //notification
+        Intent intent = new Intent(this, MyIntentService.class);
+        startService(intent);
+
+
         sp=getSharedPreferences("mySP",0);
 
 
@@ -274,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ;
             }
         }
+
         else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 try {

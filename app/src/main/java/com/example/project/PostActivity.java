@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,6 +82,7 @@ public class    PostActivity extends AppCompatActivity {
                             accountEmail.setText(user.getEmail());
                             accountgender.setText(user.getGender());
                             accountcountry.setText(user.getCountry());
+                            accountCircleImageView.setImageBitmap(StringToBitMap(user.getImage()));
                             break;
                         }
 
@@ -105,6 +109,23 @@ public class    PostActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+
+        }
 
     }
 

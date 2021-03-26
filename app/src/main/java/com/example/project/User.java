@@ -6,13 +6,16 @@ public class User {
     private String email;
     private String country;
     private String gender;
+    private String image;
 
-    public User(String uid, String name, String email, String country, String gender) {
+
+    public User(String uid, String name, String email, String country, String gender, String image) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.country = country;
         this.gender = gender;
+        this.image = image;
     }
 
     public User(){
@@ -57,5 +60,25 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

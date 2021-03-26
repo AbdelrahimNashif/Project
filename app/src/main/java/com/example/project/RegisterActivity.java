@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-                            user=new User(uid,nameet.getText().toString(),emailet.getText().toString(),"","");
+                            user=new User(uid,nameet.getText().toString(),emailet.getText().toString(),"","","");
                             userRef.child(uid).setValue(user);
 
                             Toast.makeText(RegisterActivity.this, "Authentication success.",
