@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,9 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class posts_listActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
+    private TextView title;
     //listView
     private ListView listView;//display
     private ArrayList<Startup> startupsList;//DATA
@@ -31,6 +37,7 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference postRef;
     private FirebaseAuth auth;
+    private String uid;
 
     private String selectedType;
 
@@ -38,6 +45,8 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
+        title=findViewById(R.id.activity_posts_list_titletv);
+
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
         startupsList = new ArrayList<Startup>();
@@ -45,9 +54,10 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         postRef = firebaseDatabase.getReference("posts");
+        uid = auth.getCurrentUser().getUid().toString();
 
 
-        selectedType="a";
+        selectedType = "a";
 
         // StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
         //StartupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background)), "bbbbbb", "bbb", "bb"));
@@ -55,16 +65,31 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
         getAllPosts();
 
 
-
     }
+
     private void getAllPosts() {
-        Intent intent=getIntent();
-        selectedType=intent.getStringExtra("selectedType");
+        Intent intent = getIntent();
+        if (intent.getStringExtra("selectedType") != null)
+            selectedType = intent.getStringExtra("selectedType");
+        else if (intent.getStringExtra("type") != null)
+            selectedType = intent.getStringExtra("type");
+
+        //title adjustment
+        if(selectedType.equals("s"))
+            title.setText("startups");
+        else if(selectedType.equals("f"))
+            title.setText("financiers");
+        else if(selectedType.equals("a"))
+            title.setText("all posts");
+        else
+            title.setText("my posts");
+
+
         postRef = firebaseDatabase.getReference("posts");
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                startupsList=new ArrayList<Startup>();
+                startupsList = new ArrayList<Startup>();
                 //  startupsList.add(new Startup("a", "a", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "aaaaaa", "aaa", "aa","s"));
                 //  startupsList.add(new Startup("b", "bb", BitMapToString(BitmapFactory.decodeResource(getResources(), R.drawable.sky1)), "bbbbbb", "bbb", "bb","s"));
                 if (selectedType.equals("a"))
@@ -73,12 +98,19 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
                         startupsList.add(startup);
 
                     }
-                else
+                else if (selectedType.equals("s") || selectedType.equals("f"))
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Startup startup = data.getValue(Startup.class);
                         if (startup.getType().equals(selectedType))
                             startupsList.add(startup);
                     }
+                else {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Startup startup = data.getValue(Startup.class);
+                        if (startup.getUid().equals(uid))
+                            startupsList.add(startup);
+                    }
+                }
                 arrayAdapter = new StartupAdapter(posts_listActivity.this, 0, startupsList);
                 listView.setAdapter(arrayAdapter);
             }
@@ -88,6 +120,9 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
 
             }
         });
+
+
+
     }
 
     @Override
@@ -99,4 +134,5 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
 
 
     }
+
 }

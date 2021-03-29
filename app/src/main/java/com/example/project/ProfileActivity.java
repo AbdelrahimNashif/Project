@@ -37,7 +37,7 @@ import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView profileimage;
-    private TextView nametv, emailtv,gendertv,countrytv;
+    private TextView nametv, emailtv, gendertv, countrytv;
     private Dialog d;
     private SharedPreferences sp;
     private Button camerabtndialog, gallerybtndialog;
@@ -50,21 +50,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private EditText dialogName, dialogCountry;
     private RadioButton dialogMaleRBtn, dialogFemaleRBtn;
     private Button dialogEditBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        mAuth=FirebaseAuth.getInstance();
-        userRef= FirebaseDatabase.getInstance().getReference("users");
+        mAuth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         sp = getSharedPreferences("myprefs", MODE_PRIVATE);
         profileimage = findViewById(R.id.profileimage_profileactivity);
         nametv = findViewById(R.id.nametv_profileactivity);
         emailtv = findViewById(R.id.emailtv_profileactivity);
-        gendertv=findViewById(R.id.gendertv_profileactivity);
-        countrytv=findViewById(R.id.countrytv_profileactivity);
-
-
+        gendertv = findViewById(R.id.gendertv_profileactivity);
+        countrytv = findViewById(R.id.countrytv_profileactivity);
 
 
         emailtv.setText(mAuth.getCurrentUser().getEmail().toString());
@@ -73,21 +72,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    User user=ds.getValue(User.class);
-                    if(user.getUid()!=null)
-                        if(user.getUid().equals(uid)){
-                            if(user.getName()!="")
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if (user.getUid() != null)
+                        if (user.getUid().equals(uid)) {
+                            if (user.getName() != "")
                                 nametv.setText(user.getName());
-                            if(user.getGender()!="")
+                            if (user.getGender() != "")
                                 gendertv.setText(user.getGender());
-                            if(user.getCountry()!="")
+                            if (user.getCountry() != "")
                                 countrytv.setText(user.getCountry());
-                            if(user.getImage()!=null)
+                            if (user.getImage() != null)
                                 profileimage.setImageBitmap(StringToBitMap(user.getImage()));
 
-                        break;
-                    }
+                            break;
+                        }
                 }
             }
 
@@ -103,29 +102,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (view == camerabtndialog) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, 0);
-        }
-          else if (view == gallerybtndialog) {
+        } else if (view == gallerybtndialog) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
-        }
-          else if (view == dialogEditBtn){
+        } else if (view == dialogEditBtn) {
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds : snapshot.getChildren()){
-                        User user=ds.getValue(User.class);
-                        if(user.getUid()!=null)
-                            if(user.getUid().equals(uid)){
-                                user.setName(dialogName.getText().toString());
-                                if(dialogMaleRBtn.isChecked())
-                                user.setGender("male");
-                                else if(dialogFemaleRBtn.isChecked())
-                                    user.setGender("female");
-                                user.setCountry(dialogCountry.getText().toString());
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        User user = ds.getValue(User.class);
+                        if (user.getUid() != null)
+                            if (user.getUid().equals(uid)) {
 
-                                userRef.child(uid).child("name").setValue(user.getName());
+                                if (dialogMaleRBtn.isChecked()) {
+                                    user.setGender("male");
+                                } else if (dialogFemaleRBtn.isChecked()) {
+                                    user.setGender("female");
+                                }
+                                if (!dialogName.getText().toString().equals("")) {
+                                    user.setName(dialogName.getText().toString());
+                                    userRef.child(uid).child("name").setValue(user.getName());
+                                }
                                 userRef.child(uid).child("gender").setValue(user.getGender());
-                                userRef.child(uid).child("country").setValue(user.getCountry());
+
+                                if (!dialogCountry.getText().toString().equals("")) {
+                                    user.setCountry(dialogCountry.getText().toString());
+                                    userRef.child(uid).child("country").setValue(user.getCountry());
+                                }
                                 d.dismiss();
                                 break;
                             }
@@ -149,14 +152,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
-               // profileimage.setImageBitmap(bitmap);
+                // profileimage.setImageBitmap(bitmap);
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds : snapshot.getChildren()){
-                            User user=ds.getValue(User.class);
-                            if(user.getUid()!=null)
-                                if(user.getUid().equals(uid)){
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            User user = ds.getValue(User.class);
+                            if (user.getUid() != null)
+                                if (user.getUid().equals(uid)) {
                                     user.setImage(BitMapToString(bitmap));
                                     userRef.child(uid).child("image").setValue(user.getImage());
                                     break;
@@ -176,13 +179,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "profile image didn't change ", Toast.LENGTH_LONG).show();
                 ;
             }
-        }
-        else if (requestCode == 1) {
+        } else if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 try {
-                    InputStream inputStream=getContentResolver().openInputStream(data.getData());
-                    bitmap=BitmapFactory.decodeStream(inputStream);
-                //    profileimage.setImageBitmap(bitmap);
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    //    profileimage.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -190,10 +192,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds : snapshot.getChildren()){
-                            User user=ds.getValue(User.class);
-                            if(user.getUid()!=null)
-                                if(user.getUid().equals(uid)){
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            User user = ds.getValue(User.class);
+                            if (user.getUid() != null)
+                                if (user.getUid().equals(uid)) {
                                     user.setImage(BitMapToString(bitmap));
                                     userRef.child(uid).child("image").setValue(user.getImage());
                                     break;
@@ -211,6 +213,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profilemenu, menu);
         return true;
@@ -226,8 +229,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 dialogName = d.findViewById(R.id.profileActivity_editProfile_dialog_nameET);
                 dialogMaleRBtn = d.findViewById(R.id.profileActivity_editProfile_dialog_maleRadiobtn);
                 dialogFemaleRBtn = d.findViewById(R.id.profileActivity_editProfile_dialog_femaleRadiobtn);
-                dialogCountry=d.findViewById(R.id.profileActivity_editProfile_dialog_countryET);
-                dialogEditBtn=d.findViewById(R.id.profileActivity_editProfile_dialog_editbtn);
+                dialogCountry = d.findViewById(R.id.profileActivity_editProfile_dialog_countryET);
+                dialogEditBtn = d.findViewById(R.id.profileActivity_editProfile_dialog_editbtn);
                 dialogEditBtn.setOnClickListener(this);
                 d.show();
                 break;
@@ -244,8 +247,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.profilemenu_resetpassword:
                 mAuth.sendPasswordResetEmail(emailtv.getText().toString());
-                Toast.makeText(this,"check your email to reset password", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "check your email to reset password", Toast.LENGTH_LONG).show();
                 break;
+
+            case R.id.profilemenu_myposts:
+                Intent intent = new Intent(this, posts_listActivity.class);
+                intent.putExtra("type", "m");
+                startActivity(intent);
+                break;
+
+
         }
         return true;
     }

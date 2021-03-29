@@ -11,7 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".startActivity" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".Check_List" />
         <activity android:name=".posts_listActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".EditImageDialogActivity" />
@@ -19,18 +26,12 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
-        <service android:name=".MyIntentService"
+        <service
+            android:name=".MyIntentService"
             android:enabled="true"
-            android:exported="false"
-            />
-
+            android:exported="false" />
     </application>
 
 </manifest>

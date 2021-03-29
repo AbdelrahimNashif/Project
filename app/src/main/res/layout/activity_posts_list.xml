@@ -5,13 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".posts_listActivity"
+    android:orientation="vertical"
     android:background="@drawable/softcolorsplants">
+    <TextView
+        android:id="@+id/activity_posts_list_titletv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="30dp"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="10"/>
     <ListView
+        android:id="@+id/mainListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainListView"
         android:scrollbars="none"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
 
         />
 </LinearLayout>

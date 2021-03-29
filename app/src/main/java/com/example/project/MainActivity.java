@@ -133,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, ProfileActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.LoginMenuchecklist:
+                Intent intent2 = new Intent(this, Check_List.class);
+                startActivity(intent2);
+                break;
+
             case R.id.LoginMenuTheme:
                 if(sp.contains("themeId"))
                 if (themeId == R.drawable.ic_baseline_wb_sunny_24) {

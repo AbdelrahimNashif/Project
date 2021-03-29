@@ -11,16 +11,11 @@
         android:title="your profile"
         />
     <item
-        android:id="@+id/LoginMenuchat"
+        android:id="@+id/LoginMenuchecklist"
         app:showAsAction="always"
-        android:title="chat"
-        android:icon="@drawable/ic_baseline_chat_24" />
+        android:title="check list"
+        android:icon="@drawable/ic_baseline_checklist_24" />
 
-        <item
-            android:title="sign out"
-            app:showAsAction="never"
-            android:id="@+id/LoginMenusignout"
-        />
 
 
     <item
@@ -37,4 +32,10 @@
             <item android:title="currency"/>
         </menu>
     </item>
+    <item
+        android:title="sign out"
+        app:showAsAction="never"
+        android:id="@+id/LoginMenusignout"
+        />
+
 </menu>

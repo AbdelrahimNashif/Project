@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="10dp"
+    android:orientation="horizontal"
+    android:paddingVertical="20dp">
+
+    <CheckBox
+        android:id="@+id/add_task_layout_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:buttonTint="#DC9E6F"
+        android:scaleX="1.4"
+        android:scaleY="1.4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/add_task_layout_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="top"
+            android:hint="enter your new task!"
+            android:minHeight="100dp"
+            android:padding="10dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_task_layout_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_margin="10dp"
+            app:fabSize="mini"
+            android:backgroundTint="#DC9E6F"
+            android:src="@drawable/ic_baseline_add_24"
+
+            />
+    </LinearLayout>
+</LinearLayout>

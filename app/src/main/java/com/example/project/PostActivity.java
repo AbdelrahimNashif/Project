@@ -61,6 +61,7 @@ public class    PostActivity extends AppCompatActivity {
         accountcountry=findViewById(R.id.postactivity_countryTv);
         accountgender=findViewById(R.id.postactivity_genderTv);
 
+        //intent
         Intent intent=getIntent();
         Startup startup=(Startup)intent.getSerializableExtra("startup");
         imageView.setImageBitmap(MainActivity.StringToBitMap(startup.getImage()));

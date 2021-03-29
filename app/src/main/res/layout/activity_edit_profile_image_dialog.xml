@@ -2,46 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
-    android:layout_height="match_parent"
-    tools:context=".EditImageDialogActivity"
-    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="300dp"
     android:background="#fff"
-    android:padding="20dp">
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".EditImageDialogActivity">
 
 
-<TextView
+    <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Edit profile"
-        android:textColor="@android:color/black"
-        android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        />
+        android:gravity="center"
+        android:text="Edit profile"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/camerabtn_profile_dialog"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_custom_black"
         android:text="Go to camera"
         android:textAllCaps="false"
-        android:layout_gravity="center"
-        android:background="@drawable/button_custom"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="20dp"
-        />
+        android:textColor="@android:color/white" />
+
     <Button
         android:id="@+id/gallerybtn_profile_dialog"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_custom_black"
         android:text="Go to gallery"
         android:textAllCaps="false"
-        android:layout_gravity="center"
-        android:background="@drawable/button_custom"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="20dp"
-        />
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

@@ -4,4 +4,5 @@
     <item android:id="@+id/profilemenu_editProfile" android:title="edit profile" android:icon="@drawable/ic_baseline_edit_24" app:showAsAction="always"/>
     <item android:title="edit profile image"  android:icon="@drawable/ic_baseline_edit_24" android:id="@+id/profilemenu_editprofileimage"  />
     <item android:title="reset password" android:id="@+id/profilemenu_resetpassword"/>
+    <item android:title="my posts" android:id="@+id/profilemenu_myposts" />
 </menu>
