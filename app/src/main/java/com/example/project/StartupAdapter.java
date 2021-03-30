@@ -8,6 +8,8 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class StartupAdapter extends ArrayAdapter<Startup> {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.startup_layout, parent, false);
 
+
         TextView title = (TextView) view.findViewById(R.id.startuptitle);
         TextView subtitle = (TextView) view.findViewById(R.id.startupsubtitle);
         ImageView imageView = (ImageView) view.findViewById(R.id.startupImage);
@@ -41,6 +44,9 @@ public class StartupAdapter extends ArrayAdapter<Startup> {
         title.setText(temp.getTitle());
         subtitle.setText(temp.getSubtitle());
         imageView.setImageBitmap( StringToBitMap(temp.getImage()));
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_left);
+        view.startAnimation(animation);
         return view;
     }
 

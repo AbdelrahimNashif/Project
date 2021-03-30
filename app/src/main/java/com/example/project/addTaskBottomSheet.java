@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ public class addTaskBottomSheet extends BottomSheetDialogFragment implements Vie
             //UserTasks userTasks=new UserTasks(uid,)
             //postRef = firebaseDatabase.getReference("task lists").push();
         Intent intent= new Intent(getContext(),Check_List.class);
-        intent.putExtra("isChecked", checkBox.isChecked());
+            Log.d("abode", String.valueOf(checkBox.isChecked()));
+        intent.putExtra("isChecked", String.valueOf(checkBox.isChecked()));
         intent.putExtra("text",editText.getText().toString());
         startActivity(intent);
 

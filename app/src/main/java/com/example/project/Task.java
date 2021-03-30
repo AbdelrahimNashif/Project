@@ -1,10 +1,10 @@
 package com.example.project;
 
 public class Task {
-    private boolean checked;
+    private String checked;
     private String text;
 
-    public Task(boolean checked, String text) {
+    public Task(String checked, String text) {
         this.checked = checked;
         this.text = text;
     }
@@ -12,11 +12,11 @@ public class Task {
     public Task() {
     }
 
-    public boolean isChecked() {
+    public String isChecked() {
         return checked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(String checked) {
         this.checked = checked;
     }
 

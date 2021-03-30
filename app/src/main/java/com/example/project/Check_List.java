@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class Check_List extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
@@ -39,9 +41,9 @@ public class Check_List extends AppCompatActivity implements AdapterView.OnItemC
     private DatabaseReference taskListRef;
     private FirebaseAuth auth;
     private String uid;
+    private int taskscount;
 
-    private Boolean check;
-    private Boolean isChecked;
+    private String isChecked;
     private String addedText;
 
 
@@ -49,10 +51,9 @@ public class Check_List extends AppCompatActivity implements AdapterView.OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check__list);
-        check = false;
+
         fab = findViewById(R.id.activity_check_list_FAB);
         fab.setOnClickListener(this);
-
         //firebase
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -64,85 +65,40 @@ public class Check_List extends AppCompatActivity implements AdapterView.OnItemC
         listView.setOnItemClickListener(this);
         taskArrayList = new ArrayList<Task>();
         taskAdapter = new TaskAdapter(this, 0, taskArrayList);
-        Log.d("abode", "before intent if");
+
+
 
         //intent from addTaskBottomSheet
         Intent intent = getIntent();
         if (intent.getStringExtra("text") != null) {
-            Log.d("abode", "in intent if");
-            isChecked = Boolean.parseBoolean(intent.getStringExtra("isChecked"));
+            isChecked = intent.getStringExtra("isChecked");
+            Log.d("abode", "this is after the intent: "+String.valueOf(isChecked));
             addedText = intent.getStringExtra("text");
-            taskListRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("abode", "datachange1");
-
-                    int checkcount = 0;
-                    for (DataSnapshot data : snapshot.getChildren()) {
-                        // UserTasks userTasks=data.getValue(UserTasks.class);
-                        if (data.getKey().equals(uid)) {
-                            check = false;
-                            taskListRef.child(uid).addValueEventListener(new ValueEventListener() {
-
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    Log.d("abode", "datachange2");
-                                    for (DataSnapshot data : snapshot.getChildren()) {
-                                        if (data.getKey().equals("task: " + addedText)) {
-                                            check = true;
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                            if (check == false)
-                                taskListRef.child(uid).child("task: " + addedText).setValue(new Task(isChecked, addedText));
-                            checkcount++;
-                            break;
-                        }
-                    }
-
-                    if (checkcount == 0) {
-                        taskListRef.child(uid).child("task: " + addedText).setValue(new Task(isChecked, addedText));
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            String[] sentences=addedText.split("\n");
+            String untilDot=sentences[0];
 
 
+            taskListRef.child(uid).child("task: "+untilDot).setValue(new Task(isChecked,addedText));
         }
-        Log.d("abode", "before getalltasks");
+
+
 
         getAllTasks();
-        taskAdapter = new TaskAdapter(Check_List.this, 0, taskArrayList);
-        listView.setAdapter(taskAdapter);
+
     }
 
     private void getAllTasks() {
-        Log.d("abode", "datachange3");
-        taskListRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("abode", "datachange4");
-                taskArrayList = new ArrayList<Task>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    if (data.getKey().equals(uid)) {
-                        taskListRef.child(uid).addValueEventListener(new ValueEventListener() {
+
+                        taskListRef.child(uid).orderByChild("checked").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                taskArrayList=new ArrayList<Task>();
                                 for (DataSnapshot d : snapshot.getChildren()) {
                                     taskArrayList.add(d.getValue(Task.class));
                                 }
 
+                                taskAdapter = new TaskAdapter(Check_List.this, 0, taskArrayList);
+                                listView.setAdapter(taskAdapter);
                             }
 
                             @Override
@@ -150,22 +106,13 @@ public class Check_List extends AppCompatActivity implements AdapterView.OnItemC
 
                             }
                         });
-                        Log.d("abode", "after getalltasks");
-                        break;
-
                     }
-                }
-                taskAdapter = new TaskAdapter(Check_List.this, 0, taskArrayList);
-                listView.setAdapter(taskAdapter);
-                Log.d("abode", "after linking the listview with the adapter");
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-    }
+
+
+
+
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
