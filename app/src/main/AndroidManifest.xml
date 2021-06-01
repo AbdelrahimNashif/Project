@@ -11,22 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".startActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".startActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".Check_List" />
-        <activity android:name=".posts_listActivity" />
-        <activity android:name=".PostActivity" />
+        <activity
+            android:name=".Check_List"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".posts_listActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PostActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditImageDialogActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
-        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service
             android:name=".MyIntentService"

@@ -4,10 +4,10 @@ public class Task {
     private String checked;
     private String text;
 
-    public Task(String checked, String text) {
-        this.checked = checked;
-        this.text = text;
-    }
+        public Task(String checked, String text) {
+            this.checked = checked;
+            this.text = text;
+        }
 
     public Task() {
     }

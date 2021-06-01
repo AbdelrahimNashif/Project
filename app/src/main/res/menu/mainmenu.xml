@@ -6,12 +6,12 @@
 
     <item
         android:icon="@drawable/ic_baseline_person_24"
-        android:id="@+id/LoginMenuaProfile"
+        android:id="@+id/MainMenuaProfile"
         app:showAsAction="always"
         android:title="your profile"
         />
     <item
-        android:id="@+id/LoginMenuchecklist"
+        android:id="@+id/MainMenuchecklist"
         app:showAsAction="always"
         android:title="check list"
         android:icon="@drawable/ic_baseline_checklist_24" />
@@ -20,22 +20,21 @@
 
     <item
         android:title="settings"
-        android:id="@+id/LoginMenuSettings"
+        android:id="@+id/MainMenuSettings"
        >
         <menu>
             <item android:title="theme"
-                android:id="@+id/LoginMenuTheme"
+                android:id="@+id/MainMenuTheme"
                 android:icon="@drawable/ic_baseline_wb_sunny_24"
                 />
 
             <item android:title="language"/>
-            <item android:title="currency"/>
         </menu>
     </item>
     <item
         android:title="sign out"
         app:showAsAction="never"
-        android:id="@+id/LoginMenusignout"
+        android:id="@+id/MainMenusignout"
         />
 
 </menu>

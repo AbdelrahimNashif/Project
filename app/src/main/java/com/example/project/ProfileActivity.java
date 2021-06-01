@@ -38,15 +38,16 @@ import java.io.InputStream;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView profileimage;
     private TextView nametv, emailtv, gendertv, countrytv;
-    private Dialog d;
     private SharedPreferences sp;
     private Button camerabtndialog, gallerybtndialog;
+    private Bitmap bitmap;
+    //firebase
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
     private String uid;
-    private Bitmap bitmap;
 
     //edit profile dialog
+    private Dialog d;
     private EditText dialogName, dialogCountry;
     private RadioButton dialogMaleRBtn, dialogFemaleRBtn;
     private Button dialogEditBtn;
@@ -55,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         mAuth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
@@ -152,7 +154,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
-                // profileimage.setImageBitmap(bitmap);
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

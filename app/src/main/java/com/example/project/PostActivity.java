@@ -40,13 +40,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private String uid;
 
     //top bar for favorate and add to my list
-    private ImageView favorateImageView;
+    private ImageView favorateImageView, addPostImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
+        Log.d("abode", "hello");
         mAuth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
 
@@ -54,6 +54,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         //top bar for favorate and add to my list
         favorateImageView = findViewById(R.id.activity_post_favorate_imageview);
         favorateImageView.setOnClickListener(this);
+        addPostImageView = findViewById(R.id.activity_post_addPost_imageview);
+        addPostImageView.setOnClickListener(this);
 
 
         //    linearLayout=findViewById(R.id.postactivitylinear);
@@ -147,14 +149,21 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             intent2.putExtra(Intent.EXTRA_TEXT, "the user came from your post: " + title.getText().toString() + "\n");
             startActivity(Intent.createChooser(intent2, "Send Email"));
         } else if (view == favorateImageView) {
-            Log.d("abode","on click");
-            if (favorateImageView.equals(R.drawable.ic_baseline_favorite_border_24)) {
+            if (favorateImageView.getTag().equals("off")) {
                 favorateImageView.setImageResource(R.drawable.ic_baseline_favorite_24);
-                Log.d("abode", "in the if");
+                favorateImageView.setTag("on");
+            } else {
+                favorateImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                favorateImageView.setTag("off");
             }
-        } else {
-            favorateImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-            Log.d("abode", "in the else");
+        } else if (view == addPostImageView) {
+            if (addPostImageView.getTag().equals("off")) {
+                addPostImageView.setImageResource(R.drawable.ic_baseline_add_circle_24);
+                addPostImageView.setTag("on");
+            } else {
+                addPostImageView.setImageResource(R.drawable.ic_baseline_add_circle_outline_24);
+                addPostImageView.setTag("off");
+            }
         }
     }
 }

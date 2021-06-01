@@ -84,8 +84,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         text.setText(temp.getText());
 
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        view.startAnimation(animation);
+        //  Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        //  view.startAnimation(animation);
         return view;
 
     }

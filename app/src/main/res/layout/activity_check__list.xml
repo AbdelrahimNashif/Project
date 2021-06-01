@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Check_List"
-    android:background="@drawable/softcolorsplants">
+    android:background="#141B33">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,15 +17,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             android:text="task list"
-            android:textSize="40sp" />
+            android:gravity="center"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="30dp"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="10"/>
 
         <ListView
             android:id="@+id/activity_check_list_Listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+
+            />
 
     </LinearLayout>
 

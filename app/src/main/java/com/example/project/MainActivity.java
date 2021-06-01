@@ -31,7 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class  MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private LinearLayout linearLayout;
     private SharedPreferences sp;
     private FloatingActionButton fab;
@@ -123,23 +123,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.LoginMenusignout:
+            case R.id.MainMenusignout:
                 Toast.makeText(this, "sign out", Toast.LENGTH_LONG).show();
                 auth.signOut();
                 Intent signoutIntent = new Intent(this, LoginActivity.class);
                 startActivity(signoutIntent);
                 break;
-            case R.id.LoginMenuaProfile:
+            case R.id.MainMenuaProfile:
                 Intent intent = new Intent(this, ProfileActivity.class);
                 startActivity(intent);
                 break;
 
-            case R.id.LoginMenuchecklist:
+            case R.id.MainMenuchecklist:
                 Intent intent2 = new Intent(this, Check_List.class);
                 startActivity(intent2);
                 break;
 
-            case R.id.LoginMenuTheme:
+            case R.id.MainMenuTheme:
                 if(sp.contains("themeId"))
                 if (themeId == R.drawable.ic_baseline_wb_sunny_24) {
                     item.setIcon(R.drawable.ic_baseline_brightness_2_24);
@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (themeId == R.drawable.ic_baseline_brightness_2_24) {
                     item.setIcon(R.drawable.ic_baseline_wb_sunny_24);
                     themeId = R.drawable.ic_baseline_wb_sunny_24;
-                    linearLayout.setBackgroundResource(R.drawable.backgroundtwo);
-                    maintv.setTextColor(getColor(R.color.brightColor));
+                    linearLayout.setBackgroundResource(R.drawable.softcolorsplants);
+                    maintv.setTextColor(getColor(R.color.darkColor));
                  ///   listItemTitle.setTextColor(getColor(R.color.brightColor));
                  ///   listItemSubtitle.setTextColor(getColor(R.color.brightColor));
                    /* emailet.setTextColor(getColor(R.color.brightColor));

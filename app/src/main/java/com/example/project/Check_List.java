@@ -74,11 +74,10 @@ public class Check_List extends AppCompatActivity implements AdapterView.OnItemC
             isChecked = intent.getStringExtra("isChecked");
             Log.d("abode", "this is after the intent: "+String.valueOf(isChecked));
             addedText = intent.getStringExtra("text");
+
             String[] sentences=addedText.split("\n");
-            String untilDot=sentences[0];
-
-
-            taskListRef.child(uid).child("task: "+untilDot).setValue(new Task(isChecked,addedText));
+            String firstsentence=sentences[0];
+            taskListRef.child(uid).child("task: "+firstsentence).setValue(new Task(isChecked,addedText));
         }
 
 

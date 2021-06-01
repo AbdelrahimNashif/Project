@@ -23,8 +23,8 @@ public class MyIntentService extends IntentService {
         //phase 1
         int icon = android.R.drawable.star_on;
         long when = System.currentTimeMillis();
-        String title = "title";
-        String text="My text";
+        String title = "Welcome to let's startup app";
+        String text="Click to see your profile";
 
         //phase 2
         Intent intent1 = new Intent(this, ProfileActivity.class);

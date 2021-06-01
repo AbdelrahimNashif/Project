@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class posts_listActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private TextView title;
+    private TextView title,postsnumberTv;
     //listView
     private ListView listView;//display
     private ArrayList<Startup> startupsList;//DATA
@@ -46,6 +46,8 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
         title=findViewById(R.id.activity_posts_list_titletv);
+        postsnumberTv=findViewById(R.id.activity_posts_list_postsnumberTv);
+
 
         listView = findViewById(R.id.mainListView);
         listView.setOnItemClickListener(this);
@@ -113,6 +115,8 @@ public class posts_listActivity extends AppCompatActivity implements AdapterView
                 }
                 arrayAdapter = new StartupAdapter(posts_listActivity.this, 0, startupsList);
                 listView.setAdapter(arrayAdapter);
+
+                postsnumberTv.setText("Posts number: "+startupsList.size());
             }
 
             @Override
